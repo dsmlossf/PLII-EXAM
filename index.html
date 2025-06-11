@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROGRAMMING LANGUAGE II - EXAM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #4caf50;
+            width: 100%;
+        }
+        .timer {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+        .coordinator {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PROGRAMMING LANGUAGE II - EXAM</h1>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="timer" id="timer">30:00</div>
+        <div id="quiz-container">
+            <!-- Quiz content will be injected here -->
+        </div>
+        <button id="submit-btn" onclick="submitQuiz()">Submit</button>
+        <div id="score-container" class="hidden">
+            <h2>Your Score: <span id="score"></span></h2>
+            <button onclick="showAnswers()">Show Answers</button>
+        </div>
+        <div id="answers-container" class="hidden">
+            <h2>Review Your Answers</h2>
+            <div id="answers"></div>
+        </div>
+    </div>
+    <div class="coordinator">Coordinator: Rohit Salgotra</div>
+    <script>
+        const quizData = [{"question": "What is the purpose of target_link_libraries() in CMake?", "answers": ["To define a new target", "To specify include directories", "To link a target with libraries", "To set compiler flags"], "correct": 2}, {"question": "Which file is typically used to configure a CMake project?", "answers": ["Makefile", "CMakeLists.txt", "build.sh", "configure.ac"], "correct": 1}, {"question": "What does add_subdirectory() do in CMake?", "answers": ["Adds a new source file", "Includes another CMake project", "Compiles a submodule", "Links a library"], "correct": 1}, {"question": "What is the output of int x = 5 / 2; in C++?", "answers": ["2.5", "2", "3", "Compilation error"], "correct": 1}, {"question": "Which of the following is a valid C++ identifier?", "answers": ["2value", "_value2", "value-2", "value 2"], "correct": 1}, {"question": "Which operator has the highest precedence in C++?", "answers": ["+", "()", "&&", "="], "correct": 1}, {"question": "What is the default return type of a function in C++ if not specified?", "answers": ["void", "int", "float", "Compilation error"], "correct": 1}, {"question": "Which keyword is used to prevent a function from modifying an argument?", "answers": ["static", "const", "mutable", "volatile"], "correct": 1}, {"question": "What is function overloading?", "answers": ["Using too many functions", "Defining multiple functions with the same name but different parameters", "Calling a function recursively", "Using a function inside another"], "correct": 1}, {"question": "Which container provides constant time access by key?", "answers": ["vector", "unordered_map", "list", "stack"], "correct": 1}, {"question": "Which STL container maintains sorted order?", "answers": ["unordered_set", "set", "vector", "queue"], "correct": 1}, {"question": "Which container allows fast insertion/removal at both ends?", "answers": ["vector", "deque", "map", "stack"], "correct": 1}, {"question": "What is the default access specifier in a struct?", "answers": ["private", "public", "protected", "internal"], "correct": 1}, {"question": "Can a struct have member functions in C++?", "answers": ["No", "Yes", "Only static functions", "Only constructors"], "correct": 1}, {"question": "Which of the following is true about structs and classes in C++?", "answers": ["They are completely different", "Only the default access specifier differs", "Structs cannot inherit", "Classes cannot have public members"], "correct": 1}, {"question": "What is the purpose of a virtual function?", "answers": ["To overload a function", "To enable polymorphism", "To define a static method", "To create a template"], "correct": 1}, {"question": "Which of the following is not a valid access specifier?", "answers": ["public", "private", "internal", "protected"], "correct": 2}, {"question": "What is the rule of three in C++?", "answers": ["Three types of inheritance", "Destructor, copy constructor, copy assignment operator", "Three access specifiers", "Three types of polymorphism"], "correct": 1}, {"question": "What is a union in C++?", "answers": ["A class with only static members", "A data structure where all members share the same memory", "A struct with private members", "A container class"], "correct": 1}, {"question": "Which of the following is true about bit fields in structs?", "answers": ["They are used for floating-point precision", "They allow packing of data into smaller memory", "They are deprecated", "They are only used in C"], "correct": 1}, {"question": "What is the size of an empty struct in C++?", "answers": ["0 bytes", "1 byte", "Depends on compiler", "Undefined"], "correct": 1}, {"question": "Which smart pointer allows shared ownership?", "answers": ["unique_ptr", "shared_ptr", "auto_ptr", "weak_ptr"], "correct": 1}, {"question": "What happens when the last shared_ptr to an object is destroyed?", "answers": ["Nothing", "The object is deleted", "The object is moved", "The object is copied"], "correct": 1}, {"question": "Which smart pointer does not increase reference count?", "answers": ["shared_ptr", "unique_ptr", "weak_ptr", "auto_ptr"], "correct": 2}, {"question": "Which GDB command sets a breakpoint?", "answers": ["run", "break", "watch", "step"], "correct": 1}, {"question": "What does the next command do in GDB?", "answers": ["Steps into a function", "Steps over a function", "Continues execution", "Sets a watchpoint"], "correct": 1}, {"question": "Which command shows the current call stack in GDB?", "answers": ["info", "backtrace", "stack", "trace"], "correct": 1}, {"question": "What does the regex ^a.*z$ match?", "answers": ["Any string", "A string that starts with 'a' and ends with 'z'", "A string with only 'a' and 'z'", "A string with 'a' followed by 'z'"], "correct": 1}, {"question": "What does \\d+ match in regex?", "answers": ["A single digit", "One or more digits", "A decimal number", "A digit or letter"], "correct": 1}, {"question": "Which regex matches a valid C++ identifier?", "answers": ["\\d\\w*", "[a-zA-Z_]\\w*", "\\w+", "[0-9a-zA-Z]+"], "correct": 1}];
+        let currentQuestion = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 1800; // 30 minutes in seconds
+
+        function startQuiz() {
+            document.getElementById('submit-btn').classList.remove('hidden');
+            showQuestion();
+            startTimer();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                updateProgressBar();
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        function updateProgressBar() {
+            const progress = (timeLeft / 1800) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function showQuestion() {
+            const questionData = quizData[currentQuestion];
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = `
+                <div class="question">
+                    <h2>Question ${currentQuestion + 1}: ${questionData.question}</h2>
+                    <ul class="answers">
+                        ${questionData.answers.map((answer, index) => `
+                            <li>
+                                <label>
+                                    <input type="radio" name="answer" value="${index}">
+                                    ${answer}
+                                </label>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function submitQuiz() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer) {
+                const answerIndex = parseInt(selectedAnswer.value);
+                if (answerIndex === quizData[currentQuestion].correct) {
+                    score++;
+                }
+            }
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                showQuestion();
+            } else {
+                clearInterval(timer);
+                showScore();
+            }
+        }
+
+        function showScore() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('score-container').classList.remove('hidden');
+            document.getElementById('score').innerText = `${score} / ${quizData.length}`;
+        }
+
+        function showAnswers() {
+            const answersContainer = document.getElementById('answers-container');
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = quizData.map((questionData, index) => `
+                <div class="question">
+                    <h2>Question ${index + 1}: ${questionData.question}</h2>
+                    <ul class="answers">
+                        ${questionData.answers.map((answer, answerIndex) => `
+                            <li style="color: ${answerIndex === questionData.correct ? 'green' : 'red'};">
+                                ${answer}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `).join('');
+            answersContainer.classList.remove('hidden');
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>
