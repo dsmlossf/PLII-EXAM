@@ -1,0 +1,302 @@
+[
+    {
+        "question": "What is the purpose of `target_link_libraries()` in CMake?",
+        "options": [
+            "To define a new target",
+            "To specify include directories",
+            "To link a target with libraries",
+            "To set compiler flags"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Which file is typically used to configure a CMake project?",
+        "options": [
+            "Makefile",
+            "CMakeLists.txt",
+            "build.sh",
+            "configure.ac"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What does `add_subdirectory()` do in CMake?",
+        "options": [
+            "Adds a new source file",
+            "Includes another CMake project",
+            "Compiles a submodule",
+            "Links a library"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is the output of `int x = 5 / 2;` in C++?",
+        "options": [
+            "2.5",
+            "2",
+            "3",
+            "Compilation error"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which of the following is a valid C++ identifier?",
+        "options": [
+            "2value",
+            "_value2",
+            "value-2",
+            "value 2"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which operator has the highest precedence in C++?",
+        "options": [
+            "+",
+            "()",
+            "&&",
+            "="
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is the default return type of a function in C++ if not specified?",
+        "options": [
+            "void",
+            "int",
+            "float",
+            "Compilation error"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which keyword is used to prevent a function from modifying an argument?",
+        "options": [
+            "static",
+            "const",
+            "mutable",
+            "volatile"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is function overloading?",
+        "options": [
+            "Using too many functions",
+            "Defining multiple functions with the same name but different parameters",
+            "Calling a function recursively",
+            "Using a function inside another"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which container provides constant time access by key?",
+        "options": [
+            "vector",
+            "unordered_map",
+            "list",
+            "stack"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which STL container maintains sorted order?",
+        "options": [
+            "unordered_set",
+            "set",
+            "vector",
+            "queue"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which container allows fast insertion/removal at both ends?",
+        "options": [
+            "vector",
+            "deque",
+            "map",
+            "stack"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is the default access specifier in a struct?",
+        "options": [
+            "private",
+            "public",
+            "protected",
+            "internal"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Can a struct have member functions in C++?",
+        "options": [
+            "No",
+            "Yes",
+            "Only static functions",
+            "Only constructors"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which of the following is true about structs and classes in C++?",
+        "options": [
+            "They are completely different",
+            "Only the default access specifier differs",
+            "Structs cannot inherit",
+            "Classes cannot have public members"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is the purpose of a virtual function?",
+        "options": [
+            "To overload a function",
+            "To enable polymorphism",
+            "To define a static method",
+            "To create a template"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which of the following is not a valid access specifier?",
+        "options": [
+            "public",
+            "private",
+            "internal",
+            "protected"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "What is the rule of three in C++?",
+        "options": [
+            "Three types of inheritance",
+            "Destructor, copy constructor, copy assignment operator",
+            "Three access specifiers",
+            "Three types of polymorphism"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is a union in C++?",
+        "options": [
+            "A class with only static members",
+            "A data structure where all members share the same memory",
+            "A struct with private members",
+            "A container class"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which of the following is true about bit fields in structs?",
+        "options": [
+            "They are used for floating-point precision",
+            "They allow packing of data into smaller memory",
+            "They are deprecated",
+            "They are only used in C"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What is the size of an empty struct in C++?",
+        "options": [
+            "0 bytes",
+            "1 byte",
+            "Depends on compiler",
+            "Undefined"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which smart pointer allows shared ownership?",
+        "options": [
+            "unique_ptr",
+            "shared_ptr",
+            "auto_ptr",
+            "weak_ptr"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What happens when the last `shared_ptr` to an object is destroyed?",
+        "options": [
+            "Nothing",
+            "The object is deleted",
+            "The object is moved",
+            "The object is copied"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which smart pointer does not increase reference count?",
+        "options": [
+            "shared_ptr",
+            "unique_ptr",
+            "weak_ptr",
+            "auto_ptr"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Which GDB command sets a breakpoint?",
+        "options": [
+            "run",
+            "break",
+            "watch",
+            "step"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What does the `next` command do in GDB?",
+        "options": [
+            "Steps into a function",
+            "Steps over a function",
+            "Continues execution",
+            "Sets a watchpoint"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which command shows the current call stack in GDB?",
+        "options": [
+            "info",
+            "backtrace",
+            "stack",
+            "trace"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What does the regex `^a.*z$` match?",
+        "options": [
+            "Any string",
+            "A string that starts with 'a' and ends with 'z'",
+            "A string with only 'a' and 'z'",
+            "A string with 'a' followed by 'z'"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "What does `\\d+` match in regex?",
+        "options": [
+            "A single digit",
+            "One or more digits",
+            "A decimal number",
+            "A digit or letter"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Which regex matches a valid C++ identifier?",
+        "options": [
+            "\\d\\w*",
+            "[a-zA-Z_]\\w*",
+            "\\w+",
+            "[0-9a-zA-Z]+"
+        ],
+        "correct": 1
+    }
+]
