@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Language II - Exam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answers {
+            list-style-type: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+        }
+        .timer {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress-bar-fill {
+            height: 20px;
+            background-color: #4caf50;
+            width: 100%;
+            transition: width 1s;
+        }
+        .hidden {
+            display: none;
+        }
+        .coordinator {
+            font-size: 14px;
+            color: #888;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PROGRAMMING LANGUAGE II - EXAM</h1>
+        <div class="timer" id="timer">30:00</div>
+        <div class="progress-bar">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+        <div id="quiz-container"></div>
+        <button onclick="submitQuiz()">Submit</button>
+        <div id="score-container" class="hidden">
+            <h2>Your Score: <span id="score"></span></h2>
+            <button onclick="showAnswers()">Show Answers</button>
+        </div>
+        <div id="answers-container" class="hidden"></div>
+    </div>
+    <div class="coordinator">Coordinator: Rohit Salgotra</div>
+    <script>
+        const quizData = {json.dumps(quiz_data)};
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 1800; // 30 minutes in seconds
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                const progressBarFill = document.getElementById('progress-bar-fill');
+                progressBarFill.style.width = `${(timeLeft / 1800) * 100}%`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const questionData = quizData[currentQuestionIndex];
+            quizContainer.innerHTML = `
+                <div class="question">
+                    <h2>Question ${currentQuestionIndex + 1}: ${questionData.question}</h2>
+                    <ul class="answers">
+                        ${
+                            questionData.answers.map((answer, index) => `
+                                <li>
+                                    <label>
+                                        <input type="radio" name="answer" value="${index}">
+                                        ${answer}
+                                    </label>
+                                </li>
+                            `).join('')
+                        }
+                    </ul>
+                </div>
+            `;
+        }
+
+        function submitQuiz() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (selectedAnswer) {
+                const answerIndex = parseInt(selectedAnswer.value);
+                if (answerIndex === quizData[currentQuestionIndex].correct) {
+                    score++;
+                }
+            }
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                clearInterval(timer);
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('score-container').classList.remove('hidden');
+                document.getElementById('score').textContent = `${score} / ${quizData.length}`;
+            }
+        }
+
+        function showAnswers() {
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = quizData.map((questionData, index) => `
+                <div class="question">
+                    <h2>Question ${index + 1}: ${questionData.question}</h2>
+                    <ul class="answers">
+                        ${
+                            questionData.answers.map((answer, answerIndex) => `
+                                <li style="color: ${answerIndex === questionData.correct ? 'green' : 'red'};">
+                                    ${answer}
+                                </li>
+                            `).join('')
+                        }
+                    </ul>
+                </div>
+            `).join('');
+            document.getElementById('score-container').classList.add('hidden');
+            answersContainer.classList.remove('hidden');
+        }
+
+        window.onload = () => {
+            loadQuestion();
+            startTimer();
+        };
+    </script>
+</body>
+</html>
