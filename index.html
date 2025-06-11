@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROGRAMMING LANGUAGE II - EXAM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 80%;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .answers {
+      list-style-type: none;
+      padding: 0;
+    }
+    .answers li {
+      margin-bottom: 10px;
+    }
+    .timer {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-bar-inner {
+      height: 20px;
+      background-color: #4caf50;
+      width: 100%;
+      transition: width 1s linear;
+    }
+    .coordinator {
+      font-size: 14px;
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="start-screen">
+    <h1>PROGRAMMING LANGUAGE II - EXAM</h1>
+    <input type="text" id="student-name" placeholder="Enter your name" />
+    <button onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <div class="container" id="quiz-container" style="display: none;">
+    <h1>PROGRAMMING LANGUAGE II - EXAM</h1>
+    <div class="timer" id="timer">30:00</div>
+    <div class="progress-bar">
+      <div class="progress-bar-inner" id="progress-bar-inner"></div>
+    </div>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Submit</button>
+    <div class="coordinator">Coordinator: Rohit Salgotra</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const quizData = [
+      {"question":"What is the purpose of `target_link_libraries()` in CMake?","answers":["To define a new target","To specify include directories","To link a target with libraries","To set compiler flags"],"correct":2},
+      {"question":"Which file is typically used to configure a CMake project?","answers":["Makefile","CMakeLists.txt","build.sh","configure.ac"],"correct":1},
+      {"question":"What does `add_subdirectory()` do in CMake?","answers":["Adds a new source file","Includes another CMake project","Compiles a submodule","Links a library"],"correct":1},
+      {"question":"What is the output of `int x = 5 / 2;` in C++?","answers":["2.5","2","3","Compilation error"],"correct":1},
+      {"question":"Which of the following is a valid C++ identifier?","answers":["2value","_value2","value-2","value 2"],"correct":1},
+      {"question":"Which operator has the highest precedence in C++?","answers":["+","()","&&","="],"correct":1},
+      {"question":"What is the default return type of a function in C++ if not specified?","answers":["void","int","float","Compilation error"],"correct":1},
+      {"question":"Which keyword is used to prevent a function from modifying an argument?","answers":["static","const","mutable","volatile"],"correct":1},
+      {"question":"What is function overloading?","answers":["Using too many functions","Defining multiple functions with the same name but different parameters","Calling a function recursively","Using a function inside another"],"correct":1},
+      {"question":"Which container provides constant time access by key?","answers":["vector","unordered_map","list","stack"],"correct":1},
+      {"question":"Which STL container maintains sorted order?","answers":["unordered_set","set","vector","queue"],"correct":1},
+      {"question":"Which container allows fast insertion/removal at both ends?","answers":["vector","deque","map","stack"],"correct":1},
+      {"question":"What is the default access specifier in a struct?","answers":["private","public","protected","internal"],"correct":1},
+      {"question":"Can a struct have member functions in C++?","answers":["No","Yes","Only static functions","Only constructors"],"correct":1},
+      {"question":"Which of the following is true about structs and classes in C++?","answers":["They are completely different","Only the default access specifier differs","Structs cannot inherit","Classes cannot have public members"],"correct":1},
+      {"question":"What is the purpose of a virtual function?","answers":["To overload a function","To enable polymorphism","To define a static method","To create a template"],"correct":1},
+      {"question":"Which of the following is not a valid access specifier?","answers":["public","private","internal","protected"],"correct":2},
+      {"question":"What is the rule of three in C++?","answers":["Three types of inheritance","Destructor, copy constructor, copy assignment operator","Three access specifiers","Three types of polymorphism"],"correct":1},
+      {"question":"What is a union in C++?","answers":["A class with only static members","A data structure where all members share the same memory","A struct with private members","A container class"],"correct":1},
+      {"question":"Which of the following is true about bit fields in structs?","answers":["They are used for floating-point precision","They allow packing of data into smaller memory","They are deprecated","They are only used in C"],"correct":1},
+      {"question":"What is the size of an empty struct in C++?","answers":["0 bytes","1 byte","Depends on compiler","Undefined"],"correct":1},
+      {"question":"Which smart pointer allows shared ownership?","answers":["unique_ptr","shared_ptr","auto_ptr","weak_ptr"],"correct":1},
+      {"question":"What happens when the last `shared_ptr` to an object is destroyed?","answers":["Nothing","The object is deleted","The object is moved","The object is copied"],"correct":1},
+      {"question":"Which smart pointer does not increase reference count?","answers":["shared_ptr","unique_ptr","weak_ptr","auto_ptr"],"correct":2},
+      {"question":"Which GDB command sets a breakpoint?","answers":["run","break","watch","step"],"correct":1},
+      {"question":"What does the `next` command do in GDB?","answers":["Steps into a function","Steps over a function","Continues execution","Sets a watchpoint"],"correct":1},
+      {"question":"Which command shows the current call stack in GDB?","answers":["info","backtrace","stack","trace"],"correct":1},
+      {"question":"What does the regex `^a.*z$` match?","answers":["Any string","A string that starts with 'a' and ends with 'z'","A string with only 'a' and 'z'","A string with 'a' followed by 'z'"],"correct":1},
+      {"question":"What does `\\d+` match in regex?","answers":["A single digit","One or more digits","A decimal number","A digit or letter"],"correct":1},
+      {"question":"Which regex matches a valid C++ identifier?","answers":["\\d\\w*","[a-zA-Z_]\\w*","\\w+","[0-9a-zA-Z]+"],"correct":1}
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let userAnswers = [];
+    let studentName = '';
+    let timerDuration = 30 * 60;
+    let timerInterval;
+
+    function startQuiz() {
+      const nameInput = document.getElementById('student-name');
+      if (!nameInput.value.trim()) {
+        alert("Please enter your name.");
+        return;
+      }
+      studentName = nameInput.value.trim();
+      document.getElementById('start-screen').style.display = 'none';
+      document.getElementById('quiz-container').style.display = 'block';
+      loadQuestion();
+      startTimer();
+    }
+
+    function startTimer() {
+      const timerElement = document.getElementById('timer');
+      const progressBarInner = document.getElementById('progress-bar-inner');
+      let timeRemaining = timerDuration;
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        progressBarInner.style.width = `${(timeRemaining / timerDuration) * 100}%`;
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitQuiz();
+        }
+      }, 1000);
+    }
+
+    function loadQuestion() {
+      const quizElement = document.getElementById('quiz');
+      const questionData = quizData[currentQuestionIndex];
+      quizElement.innerHTML = `
+        <div class="question">
+          <h2>Question ${currentQuestionIndex + 1}:</h2>
+          <p>${questionData.question}</p>
+        </div>
+        <ul class="answers">
+          ${questionData.answers.map((answer, index) => `
+            <li>
+              <label>
+                <input type="radio" name="answer" value="${index}">
+                ${answer}
+              </label>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    }
+
+    function submitQuiz() {
+      const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+      if (selectedAnswer) {
+        userAnswers.push(parseInt(selectedAnswer.value));
+        if (parseInt(selectedAnswer.value) === quizData[currentQuestionIndex].correct) {
+          score++;
+        }
+      } else {
+        userAnswers.push(null);
+      }
+
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+      } else {
+        clearInterval(timerInterval);
+        document.querySelector('button[onclick="submitQuiz()"]').disabled = true;
+        showResults();
+      }
+    }
+
+    function showResults() {
+      const quizElement = document.getElementById('quiz');
+      quizElement.innerHTML = `
+        <h2>${studentName}, Your Score: ${score} / ${quizData.length}</h2>
+        <button onclick="showReview()">Review Answers</button>
+        <button onclick="downloadPDF()">Download PDF</button>
+      `;
+    }
+
+    function showReview() {
+      const quizElement = document.getElementById('quiz');
+      quizElement.innerHTML = quizData.map((questionData, index) => `
+        <div class="question">
+          <h2>Question ${index + 1}:</h2>
+          <p>${questionData.question}</p>
+          <ul class="answers">
+            ${questionData.answers.map((answer, answerIndex) => `
+              <li style="color: ${answerIndex === questionData.correct ? 'green' : (userAnswers[index] === answerIndex ? 'red' : 'black')};">
+                ${answer}
+              </li>
+            `).join('')}
+          </ul>
+          <p>Your Answer: ${userAnswers[index] !== null ? questionData.answers[userAnswers[index]] : 'No Answer'}</p>
+          <p>Correct Answer: ${questionData.answers[questionData.correct]}</p>
+        </div>
+      `).join('');
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(14);
+      doc.text(`Programming Language II - Exam Result`, 10, 20);
+      doc.text(`Name: ${studentName}`, 10, 30);
+      doc.text(`Score: ${score} / ${quizData.length}`, 10, 40);
+
+      let yOffset = 50;
+      quizData.forEach((q, i) => {
+        if (yOffset > 270) {
+          doc.addPage();
+          yOffset = 20;
+        }
+        doc.setFontSize(12);
+        doc.text(`${i + 1}. ${q.question}`, 10, yOffset);
+        yOffset += 7;
+        doc.text(`Your answer: ${userAnswers[i] !== null ? q.answers[userAnswers[i]] : 'No Answer'}`, 10, yOffset);
+        yOffset += 7;
+        doc.text(`Correct answer: ${q.answers[q.correct]}`, 10, yOffset);
+        yOffset += 10;
+      });
+
+      doc.save(`${studentName}_score.pdf`);
+    }
+  </script>
+</body>
+</html>
